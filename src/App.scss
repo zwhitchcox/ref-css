@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+.fixed-pop-out {
+  .pop-out-title {
+    text-align: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e9e9e9;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+}
+
+.pop-out-btn {
+  padding: .4rem .8rem;
+  background: white;
+  border-radius: .2rem;
+  box-shadow: 1px 2px 1px 2px rgba(#000, .1);
+  transition: .5s;
+  cursor: default;
+  &:hover {
+    box-shadow: 0px 0px 0px 0px rgba(#000, .1);
+  }
+}
