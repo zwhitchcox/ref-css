@@ -1,0 +1,62 @@
+$red: #c33;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
+.standard-input {
+  width: 100%;
+  padding: .4rem .6rem;
+  .input-wide-container {
+    .input-wide {
+      width: 100%;
+      display: block;
+      transition: .2s;
+      color: black;
+      input {
+        display: block;
+        padding: .4rem;
+        // border-radius: .2rem;
+        outline: 0;
+        border: none;
+        background-color: rgba(#fff, 0);
+        width: 100%;
+      }
+      &-label-text {
+        opacity: 0;
+        transition: .2s;
+        font-family: Roboto, 'Courier New', Courier, monospace;
+        font-size: .8rem;
+      }
+      &-label-text-show {
+        opacity: 1;
+      }
+      ::placeholder {
+        color: rgba(#777, 1);
+        transition: .2s;
+      }
+      /* Error */
+      border-bottom: 1px solid rgba(#777, 1);
+      &:focus-within {
+        border-bottom: 1px solid rgba(#777, .6);
+        & ::placeholder {
+          color: rgba(#777, .5);
+        }
+      }
+      &.error {
+        border-bottom: 1px solid $red;
+      }
+      &.error:focus-within ::placeholder {
+        color: rgba($red, .5)
+      }
+      &.error ::placeholder {
+        color: rgba($red, 1);
+        transition: .2s;
+      }
+    }
+  }
+  .errors {
+    font-family: Roboto, 'Courier New', Courier, monospace;
+    font-size: .8rem;
+    margin-top: .1rem;
+    color: rgba($red, 1);
+    font-weight: bold;
+  }
+}
