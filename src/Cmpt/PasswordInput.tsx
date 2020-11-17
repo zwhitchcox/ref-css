@@ -1,6 +1,7 @@
 import * as React from 'react'
-import { isArrayTypeNode } from 'typescript'
-import "./Input.scss"
+import "./PasswordInput.scss"
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
+
 
 const renderErrors = errors => {
   if (typeof errors === "undefined" || !errors || typeof errors === "boolean") {
@@ -24,27 +25,34 @@ const renderErrors = errors => {
   }
 }
 
-const Input = ({value, onChange, label, onBlur, ...opts}) => {
+const PasswordInput = ({value, onChange, label, onBlur, ...opts}) => {
   const type = opts.type || "text"
   const showErrors =
     !!((opts.touched === "undefined" || opts.touched === true) &&
     opts.errors.length)
+  const [showPassword, setShowPassword] = React.useState<boolean>(false)
+  const toggleShowPassword = () => setShowPassword(!showPassword)
 
   return (
-    <form className="standard-input">
+    <form className="password-input">
       <div className="input-wide-container">
         <label className={`input-wide ${showErrors ? "error" : ""}`}>
           <div className={`input-wide-label-text ${value !== "" ? "input-wide-label-text-show" : ""}`}>
             {label}
           </div>
-          <input
-            type={type}
-            placeholder={label}
-            value={value}
-            onBlur={onBlur}
-            onChange={onChange}
-            spellCheck={false}
-          />
+          <div className="input-wide-password-container">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder={label}
+              value={value}
+              onBlur={onBlur}
+              onChange={onChange}
+              spellCheck={false}
+            />
+            <div className="end-button" onClick={toggleShowPassword}>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </div>
+          </div>
         </label>
         {showErrors && renderErrors(opts.errors)}
       </div>
@@ -52,4 +60,4 @@ const Input = ({value, onChange, label, onBlur, ...opts}) => {
   )
 }
 
-export default Input
+export default PasswordInput

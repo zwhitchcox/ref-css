@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { validatePassword, validateUsername } from '@zecos/validate'
 import './App.scss';
 
 import Input from './Cmpt/Input';
+import PasswordInput from './Cmpt/PasswordInput';
+import FixedPopOut from './Cmpt/FixedPopOut';
 
 
 function App() {
   const [fixedPopOutOpen, setFixedPopOutOpen] = useState(false)
-  const openFixedPopOut = () => setFixedPopOutOpen(true)
   const closeFixedPopOut = () => setFixedPopOutOpen(false)
   const toggleFixedPopOut = () => setFixedPopOutOpen(!fixedPopOutOpen)
   const logInBtn = (
-    <div className="pop-out-btn">
-      <a onClick={toggleFixedPopOut}>
-        Login
-      </a>
+    <div className="pop-out-btn" onClick={toggleFixedPopOut}>
+      Login
     </div>
   )
 
@@ -21,7 +21,8 @@ function App() {
     username: "",
     password: "",
   })
-  const [errors, setErrors] = React.useState<any>({
+
+  const [touched, setTouched] = useState({
     username: false,
     password: false,
   })
@@ -33,41 +34,42 @@ function App() {
     })
   }
 
-  useEffect(() => {
-    setErrors({
-      ...errors,
-      username: [
-        "first error",
-        "second error",
-      ],
-      password: "Only one error."
-    })
-  }, [])
+  const handleBlur = field => e => {
+    if (!touched[field]) {
+      setTouched({
+        ...touched,
+        [field]: true,
+      })
+    }
+  }
 
   return (
     <div className="App">
-        {/* <FixedPopOut {...({popOutOpen, closeFixedPopOut})} btn={logInBtn}>
+        <FixedPopOut {...({popOutOpen:fixedPopOutOpen, closeFixedPopOut})} btn={logInBtn}>
           <div className="pop-out-title">
             Login
           </div>
           <div className="pop-out-content">
-            I'm baby drinking vinegar try-hard mustache aesthetic, pop-up vinyl vaporware. Gentrify actually bitters, pug semiotics hexagon street art. Marfa mustache gastropub food truck succulents gentrify direct trade kinfolk pinterest hexagon la croix kale chips austin. Heirloom before they sold out readymade master cleanse, 8-bit poutine twee. DIY umami stumptown gochujang, dreamcatcher shoreditch poutine. Cronut before they sold out ennui, meh vaporware dreamcatcher 90's viral lomo stumptown. Mustache seitan banjo, 3 wolf moon tacos farm-to-table post-ironic hashtag.
-          </div>
-        </FixedPopOut> */}
-        <br />
-        <br />
-        <br />
         <Input
           value={formState.username}
-          error={errors.username}
+          errors={validateUsername(formState.username)}
+          touched={touched.username}
           label="Username"
+          onBlur={handleBlur("username")}
           onChange={handleChange("username")} />
-        <Input
+        <PasswordInput
           value={formState.password}
-          error={errors.password}
+          errors={validatePassword(formState.password)}
+          touched={touched.password}
           label="Password"
           type="password"
+          onBlur={handleBlur("password")}
           onChange={handleChange("password")} />
+          </div>
+        </FixedPopOut>
+        <br />
+        <br />
+        <br />
     </div>
   )
 }
